@@ -1,0 +1,4 @@
+litestar
+tinydb
+requests
+python-dotenv
