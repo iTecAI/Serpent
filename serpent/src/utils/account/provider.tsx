@@ -49,7 +49,7 @@ export function AccountProvider({
                         },
                     });
                     if (loginResult.success) {
-                        await updateSession();
+                        setUser(loginResult.value);
                         return loginResult.value;
                     }
                     return null;

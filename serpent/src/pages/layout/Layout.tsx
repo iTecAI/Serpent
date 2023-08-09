@@ -2,14 +2,21 @@ import {
     ActionIcon,
     AppShell,
     Box,
-    Button,
     Group,
     Header,
+    Menu,
     Title,
 } from "@mantine/core";
 import { useColorMode } from "../../utils/theming";
 import { GiSnake } from "react-icons/gi";
-import { MdDarkMode, MdLightMode, MdLogout } from "react-icons/md";
+import {
+    MdAccountCircle,
+    MdDarkMode,
+    MdDownload,
+    MdLightMode,
+    MdLogout,
+    MdSettings,
+} from "react-icons/md";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./style.scss";
 import { AccountProvider, useAccount } from "../../utils/account";
@@ -46,12 +53,38 @@ function LayoutHeader() {
                         {mode === "dark" ? <MdLightMode /> : <MdDarkMode />}
                     </ActionIcon>
                     {user && (
-                        <Button
-                            leftIcon={<MdLogout size={16} />}
-                            onClick={() => logout()}
+                        <Menu
+                            shadow="md"
+                            width={200}
+                            trigger="hover"
+                            position="bottom-end"
                         >
-                            Log Out
-                        </Button>
+                            <Menu.Target>
+                                <ActionIcon
+                                    radius="xl"
+                                    variant={
+                                        mode === "dark" ? "light" : "gradient"
+                                    }
+                                >
+                                    <MdAccountCircle />
+                                </ActionIcon>
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                                <Menu.Label>Account</Menu.Label>
+                                <Menu.Item icon={<MdDownload size={16} />}>
+                                    Downloads
+                                </Menu.Item>
+                                <Menu.Item icon={<MdSettings size={16} />}>
+                                    Account Settings
+                                </Menu.Item>
+                                <Menu.Item
+                                    icon={<MdLogout size={16} />}
+                                    onClick={logout}
+                                >
+                                    Log Out
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
                     )}
                 </Group>
             </Group>
