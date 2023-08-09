@@ -4,6 +4,7 @@ import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "./pages/layout/Layout";
+import { ApiProvider } from "./utils/api/provider";
 
 const router = createBrowserRouter([
     {
@@ -32,8 +33,10 @@ function MantineRoot() {
 
 export default function App() {
     return (
-        <ThemeProvider>
-            <MantineRoot />
-        </ThemeProvider>
+        <ApiProvider>
+            <ThemeProvider>
+                <MantineRoot />
+            </ThemeProvider>
+        </ApiProvider>
     );
 }

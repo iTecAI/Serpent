@@ -2,3 +2,4 @@ litestar[standard]
 tinydb
 requests
 python-dotenv
+pydantic
