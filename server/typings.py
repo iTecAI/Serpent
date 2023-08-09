@@ -15,6 +15,7 @@ class PluginMeta(TypedDict):
 class SearchField_String(TypedDict):
     type: Literal["string"]
     key: str
+    label: str
 
 class SearchTerm_String(TypedDict):
     type: Literal["string"]
@@ -25,6 +26,7 @@ class SearchTerm_String(TypedDict):
 class SearchField_Datetime(TypedDict):
     type: Literal["datetime"]
     key: str
+    label: str
 
 class SearchTerm_Datetime(TypedDict):
     type: Literal["datetime"]
@@ -35,6 +37,7 @@ class SearchTerm_Datetime(TypedDict):
 class SearchField_Number(TypedDict):
     type: Literal["number"]
     key: str
+    label: str
     min: Union[float, None]
     max: Union[float, None]
     step: Union[float, None]
@@ -48,6 +51,7 @@ class SearchTerm_Number(TypedDict):
 class SearchField_Boolean(TypedDict):
     type: Literal["boolean"]
     key: str
+    label: str
 
 class SearchTerm_Boolean(TypedDict):
     type: Literal["boolean"]
@@ -57,6 +61,7 @@ class SearchTerm_Boolean(TypedDict):
 class SearchField_Selection(TypedDict):
     type: Literal["selection"]
     key: str
+    label: str
     options: dict[str, str]
     multiple: Optional[bool]
 
