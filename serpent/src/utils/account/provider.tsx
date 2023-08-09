@@ -58,6 +58,21 @@ export function AccountProvider({
                     await post<null>("/auth/logout");
                     setUser(null);
                 },
+                update: async (user) => {
+                    if (user) {
+                        setUser(user);
+                        return user;
+                    } else {
+                        const newUser = await get<User>("/auth");
+                        if (newUser.success) {
+                            setUser(newUser.value);
+                            return newUser.value;
+                        } else {
+                            setUser(null);
+                            return null;
+                        }
+                    }
+                },
             }}
         >
             {children}

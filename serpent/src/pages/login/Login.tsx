@@ -18,8 +18,6 @@ import {
     MdError,
     MdLogin,
     MdPassword,
-    MdVisibility,
-    MdVisibilityOff,
 } from "react-icons/md";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
@@ -85,13 +83,6 @@ export function LoginPage() {
                             withAsterisk
                             icon={<MdPassword />}
                             label="Password"
-                            visibilityToggleIcon={({ reveal, size }) =>
-                                reveal ? (
-                                    <MdVisibilityOff size={size} />
-                                ) : (
-                                    <MdVisibility size={size} />
-                                )
-                            }
                             {...form.getInputProps("password")}
                         />
                         <Group position="right">

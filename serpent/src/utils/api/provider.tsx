@@ -60,7 +60,7 @@ export function ApiProvider({
             return {
                 success: false,
                 code: rawResult.status,
-                reason: JSON.parse(resultText),
+                reason: resultText,
             };
         }
     }

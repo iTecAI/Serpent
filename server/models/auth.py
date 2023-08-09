@@ -31,11 +31,21 @@ class UserModel(ORMModel):
             uid=uuid4().hex,
             username=username,
             password=base64.urlsafe_b64encode(passhash).decode(),
-            password_salt=base64.urlsafe_b64encode(salt),
+            password_salt=base64.urlsafe_b64encode(salt).decode(),
             admin=False,
             alert_email="",
             alerts=False
         )
+    
+    def update_password(self, old: str, new: str) -> bool:
+        if not self.verify(old):
+            return False
+        
+        salt = secrets.token_bytes(32)
+        passhash = pbkdf2_hmac("sha256", new.encode("utf-8"), salt, 500000)
+        self.password = base64.urlsafe_b64encode(passhash).decode()
+        self.password_salt = base64.urlsafe_b64encode(salt).decode()
+        return True
 
     def verify(self, password: str) -> bool:
         return (
@@ -64,3 +74,11 @@ class UserModel(ORMModel):
 class LoginModel(BaseModel):
     username: str
     password: str
+
+class UpdatePasswordModel(BaseModel):
+    currentPassword: str
+    newPassword: str
+
+class UpdateAlertsModel(BaseModel):
+    email: str
+    enabled: bool

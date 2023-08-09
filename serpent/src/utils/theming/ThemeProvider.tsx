@@ -1,6 +1,7 @@
 import { MantineThemeOverride } from "@mantine/core";
 import { ReactNode, useMemo, useState } from "react";
 import { ThemeContext } from "./context";
+import { MdVisibilityOff, MdVisibility } from "react-icons/md";
 
 const PRIMARY_COLORS = [
   '#fee6ff',
@@ -17,14 +18,35 @@ const PRIMARY_COLORS = [
 
 export function ThemeProvider({children}: {children?: ReactNode | ReactNode[]}) {
     const [mode, setMode] = useState<"dark" | "light">("dark");
-    const derivedTheme = useMemo<MantineThemeOverride>(() => ({
-        colorScheme: mode,
-        colors: {
-            primary: PRIMARY_COLORS as any
-        },
-        primaryColor: "primary",
-        primaryShade: {light: 3, dark: 6}
-    }), [mode]);
+    const derivedTheme = useMemo<MantineThemeOverride>(
+        () => ({
+            colorScheme: mode,
+            colors: {
+                primary: PRIMARY_COLORS as any,
+            },
+            primaryColor: "primary",
+            primaryShade: { light: 3, dark: 6 },
+            components: {
+                PasswordInput: {
+                    defaultProps: {
+                        visibilityToggleIcon: ({
+                            reveal,
+                            size,
+                        }: {
+                            reveal: boolean;
+                            size: number | string;
+                        }) =>
+                            reveal ? (
+                                <MdVisibilityOff size={size} />
+                            ) : (
+                                <MdVisibility size={size} />
+                            ),
+                    },
+                },
+            },
+        }),
+        [mode]
+    );
 
     return <ThemeContext.Provider value={{
         theme: derivedTheme,

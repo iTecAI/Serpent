@@ -5,6 +5,7 @@ export type AccountContextType = {
     user: User | null | "loading";
     login: (username: string, password: string) => Promise<User | null>;
     logout: () => Promise<void>;
+    update: (user?: User) => Promise<User | null>;
 };
 
 export const AccountContext = createContext<AccountContextType>(null as any);

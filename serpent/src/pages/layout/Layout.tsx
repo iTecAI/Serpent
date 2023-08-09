@@ -20,11 +20,13 @@ import {
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./style.scss";
 import { AccountProvider, useAccount } from "../../utils/account";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AccountManagementModal } from "./AccountSettingsModal";
 
 function LayoutHeader() {
     const [mode, setMode] = useColorMode();
     const { user, logout } = useAccount();
+    const [editingUser, setEditingUser] = useState(false);
     const nav = useNavigate();
     const loc = useLocation();
 
@@ -74,7 +76,10 @@ function LayoutHeader() {
                                 <Menu.Item icon={<MdDownload size={16} />}>
                                     Downloads
                                 </Menu.Item>
-                                <Menu.Item icon={<MdSettings size={16} />}>
+                                <Menu.Item
+                                    icon={<MdSettings size={16} />}
+                                    onClick={() => setEditingUser(true)}
+                                >
                                     Account Settings
                                 </Menu.Item>
                                 <Menu.Item
@@ -88,6 +93,10 @@ function LayoutHeader() {
                     )}
                 </Group>
             </Group>
+            <AccountManagementModal
+                open={editingUser}
+                setOpen={setEditingUser}
+            />
         </Header>
     );
 }
