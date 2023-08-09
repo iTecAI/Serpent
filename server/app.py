@@ -40,10 +40,15 @@ def server_error_handler(request: Request, exc: Exception) -> Response:
 
 async def load_plugins(app: Litestar) -> None:
     app.state.plugins.load_plugins(app.logger)
+    db: TinyDB = app.state.db
+    entries = {i["id"]:i for i in db.table("plugins").all()}
+    for plugin in app.state.plugins.plugins.values():
+        if not plugin["id"] in entries.keys():
+            db.table("plugins").insert({"id": plugin["id"], "enabled": True})
 
 
 app = Litestar(
-    route_handlers=[get_root, AuthController],
+    route_handlers=[get_root, AuthController, PluginController, get_plugin_icon],
     state=State({"db": db, "download_root": os.getenv("SERPENT_DOWNLOADS", "./media"), "plugins": Plugins(os.getenv("SERPENT_PLUGINS", "./plugins"), db)}),
     dependencies={"db": Provide(depends_db), "log": Provide(depends_log)},
     exception_handlers={500: server_error_handler},

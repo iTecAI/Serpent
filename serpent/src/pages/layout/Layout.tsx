@@ -23,11 +23,13 @@ import "./style.scss";
 import { AccountProvider, useAccount } from "../../utils/account";
 import { useEffect, useState } from "react";
 import { AccountManagementModal } from "./AccountSettingsModal";
+import { ServerSettingsModal } from "./ServerSettingsModal";
 
 function LayoutHeader() {
     const [mode, setMode] = useColorMode();
     const { user, logout } = useAccount();
     const [editingUser, setEditingUser] = useState(false);
+    const [editingServer, setEditingServer] = useState(false);
     const nav = useNavigate();
     const loc = useLocation();
 
@@ -108,6 +110,9 @@ function LayoutHeader() {
                                                     size={16}
                                                 />
                                             }
+                                            onClick={() =>
+                                                setEditingServer(true)
+                                            }
                                         >
                                             Server Settings
                                         </Menu.Item>
@@ -121,6 +126,10 @@ function LayoutHeader() {
             <AccountManagementModal
                 open={editingUser}
                 setOpen={setEditingUser}
+            />
+            <ServerSettingsModal
+                open={editingServer}
+                setOpen={setEditingServer}
             />
         </Header>
     );

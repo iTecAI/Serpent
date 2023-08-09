@@ -18,6 +18,7 @@ class ComponentEntry(TypedDict, Generic[T]):
 
 class PluginItem(TypedDict):
     id: str
+    icon_path: str
     metadata: PluginMeta
     components: dict[str, ComponentEntry]
 
@@ -51,7 +52,6 @@ class Plugins:
 
             loaded_components = {}
             for component_type, components in plugin_metadata["components"].items():
-                loaded_components[component_type] = []
                 for component in components:
                     path, comp = component.split(":")
                     module_name = f"plugins.{plugin_metadata['id']}.{os.path.splitext(os.path.split(path)[1])[0]}"
@@ -60,17 +60,18 @@ class Plugins:
                         module = importlib.util.module_from_spec(spec)
                         spec.loader.exec_module(module)
                         component_class = getattr(module, comp)
-                        loaded_components[component_type].append({
+                        loaded_components[component_class.id] = {
                             "plugin": plugin_metadata["id"],
                             "id": component_class.id,
                             "type": component_type,
                             "component": component_class(plugin_metadata, self.db.table("plugin." + plugin_metadata["id"] + "." + component_type))
-                        })
+                        }
                     except:
                         logger.exception(f"Failed to load {comp} from {path} in plugin {plugin_metadata['id']}")
 
             self.plugins[plugin_metadata["id"]] = {
                 "id": plugin_metadata["id"],
+                "icon_path": os.path.join(self.path, folder, plugin_metadata["iconPath"]),
                 "metadata": plugin_metadata,
                 "components": loaded_components
             }

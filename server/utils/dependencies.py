@@ -7,6 +7,7 @@ from litestar.exceptions import *
 from tinydb import TinyDB, where
 from models import SessionModel, SESSION_EXPIRE, UserModel
 import time
+from .plugins import Plugins
 
 async def depends_db(state: State) -> TinyDB:
     return state.db
@@ -37,3 +38,6 @@ async def depends_user(db: TinyDB, token: Optional[str] = Parameter(header="auth
     if not user:
         return None
     return user
+
+async def depends_plugins(state: State) -> Plugins:
+    return state.plugins
