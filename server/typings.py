@@ -80,3 +80,14 @@ class MetadataResult(TypedDict):
     type: METADATA_TYPES
     fields: dict
 
+class DownloadResult(TypedDict):
+    download_type: DOWNLOAD_TYPES
+    resource: SearchResult
+    id: str
+
+class DownloadStatus(TypedDict):
+    id: str
+    progress: float | None
+    stage: str
+
+
