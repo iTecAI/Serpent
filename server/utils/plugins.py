@@ -59,7 +59,7 @@ class Plugins:
                         spec.loader.exec_module(module)
                         loaded_components[component_type].append({
                             "plugin": plugin_metadata["id"],
-                            "component": getattr(module, comp)
+                            "component": getattr(module, comp)(plugin_metadata, self.db.table("plugin." + plugin_metadata["id"] + "." + component_type))
                         })
                     except:
                         logger.exception(f"Failed to load {comp} from {path} in plugin {plugin_metadata['id']}")

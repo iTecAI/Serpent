@@ -1,6 +1,5 @@
 from tinydb.table import Table
 from components import SearchComponent, ComponentError
-from server.typings import SEARCH_TERMS, SearchResult
 from typings import *
 from requests import Session
 from urllib.parse import urlencode
@@ -74,7 +73,7 @@ class PirateBaySearch(SearchComponent):
     ) -> list[SearchResult]:
         results_raw = self.session.get(
             "https://apibay.org/q.php?"
-            + urlencode({"q": general, "cat": fields.get("category", "200")}),
+            + urlencode({"q": general, "cat": fields["category"]["value"] if "category" in fields.keys() else "200"}),
             headers=HEADERS,
         )
         if not results_raw.ok:
