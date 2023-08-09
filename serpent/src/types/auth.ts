@@ -3,3 +3,10 @@ export type Session = {
     uid: string | null;
     last_seen: number;
 };
+
+export type User = {
+    uid: string;
+    username: string;
+    admin: boolean | "forced";
+    alert_email: string | null;
+};

@@ -1,11 +1,25 @@
 .serpent-app {
     .app-header {
-        .logo {
-            transform: translate(0, -2px);
-        }
+        .app-brand {
+            margin-top: 6px;
+            .logo {
+                transform: translate(0, -2px);
+            }
 
-        .app-name {
-            font-weight: 500;
+            .app-name {
+                font-weight: 500;
+            }
         }
+    }
+
+    .app-container {
+        position: absolute;
+        top: 60px;
+        left: 0px;
+        display: inline-block;
+        width: 100%;
+        height: calc(100% - 60px);
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 }

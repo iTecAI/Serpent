@@ -14,15 +14,15 @@ export type ApiResponse<T = any> =
 export type ApiContextType = {
     get: <T = any>(
         url: string,
-        options: { params: { [key: string]: string } }
+        options?: { params?: { [key: string]: string } }
     ) => Promise<ApiResponse<T>>;
     post: <T = any>(
         url: string,
-        options: { params: { [key: string]: string }; data: any }
+        options?: { params?: { [key: string]: string }; data?: any }
     ) => Promise<ApiResponse<T>>;
     del: <T = any>(
         url: string,
-        options: { params: { [key: string]: string } }
+        options?: { params?: { [key: string]: string } }
     ) => Promise<ApiResponse<T>>;
 };
 

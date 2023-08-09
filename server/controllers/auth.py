@@ -45,6 +45,7 @@ class AuthController(Controller):
         return user.secured
     
     @post("/logout", guards=[guard_session, guard_logged_in])
-    async def logout(self, session: SessionModel) -> None:
+    async def logout(self, session: SessionModel, db: TinyDB) -> None:
         session.uid = None
+        session.dump(db.table("sessions"))
 
