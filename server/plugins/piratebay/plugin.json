@@ -1,0 +1,9 @@
+{
+  "id": "piratebay",
+  "name": "The Pirate Bay",
+  "description": "Search the Pirate Bay",
+  "iconPath": "icon.png",
+  "components": {
+    "search": ["search.py:PirateBaySearch"]
+  }
+}
