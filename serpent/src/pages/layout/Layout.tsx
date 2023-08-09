@@ -11,6 +11,7 @@ import { useColorMode } from "../../utils/theming";
 import { GiSnake } from "react-icons/gi";
 import {
     MdAccountCircle,
+    MdAdminPanelSettings,
     MdDarkMode,
     MdDownload,
     MdLightMode,
@@ -68,7 +69,11 @@ function LayoutHeader() {
                                         mode === "dark" ? "light" : "gradient"
                                     }
                                 >
-                                    <MdAccountCircle />
+                                    {user !== "loading" && user.admin ? (
+                                        <MdAdminPanelSettings />
+                                    ) : (
+                                        <MdAccountCircle />
+                                    )}
                                 </ActionIcon>
                             </Menu.Target>
                             <Menu.Dropdown>
@@ -88,6 +93,26 @@ function LayoutHeader() {
                                 >
                                     Log Out
                                 </Menu.Item>
+                                {user && user !== "loading" && user.admin && (
+                                    <>
+                                        <Menu.Divider />
+                                        <Menu.Label>Management</Menu.Label>
+                                        <Menu.Item
+                                            icon={<MdAccountCircle size={16} />}
+                                        >
+                                            Users
+                                        </Menu.Item>
+                                        <Menu.Item
+                                            icon={
+                                                <MdAdminPanelSettings
+                                                    size={16}
+                                                />
+                                            }
+                                        >
+                                            Server Settings
+                                        </Menu.Item>
+                                    </>
+                                )}
                             </Menu.Dropdown>
                         </Menu>
                     )}
