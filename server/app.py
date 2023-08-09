@@ -7,6 +7,7 @@ import time
 from tinydb import TinyDB
 from utils import depends_db, depends_log
 from controllers import *
+import uuid
 
 load_dotenv()
 
@@ -17,6 +18,10 @@ async def get_root() -> str:
 DB_PATH = os.getenv("SERPENT_DATABASE", "./db/db.json")
 if not os.path.exists(DB_PATH):
     os.makedirs(os.path.split(DB_PATH)[0], exist_ok=True)
+    _tempdb = TinyDB(DB_PATH)
+    admin_user = UserModel.create("admin", "serpent")
+    admin_user.admin = "forced"
+    admin_user.dump(_tempdb.table("users"))
 
 db = TinyDB(DB_PATH)
 

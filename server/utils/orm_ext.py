@@ -9,6 +9,13 @@ class ORMModel(BaseModel):
     def load(cls, db: Union[TinyDB, Table], query: Query):
         return [cls(doc_id=entry.doc_id, **entry) for entry in db.search(query)]
     
+    @classmethod
+    def load_one(cls, db: Union[TinyDB, Table], query: Query):
+        try:
+            return [cls(doc_id=entry.doc_id, **entry) for entry in db.search(query)][0]
+        except IndexError:
+            return None
+    
     def dump(self, db: Union[TinyDB, Table]):
         if self.doc_id:
             db.upsert(Document(self.anonymized, self.doc_id))
