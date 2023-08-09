@@ -20,7 +20,8 @@ class UserModel(ORMModel):
     password: str
     password_salt: str
     admin: Union[Literal["forced"], bool]
-    alert_email: Union[str, None]
+    alert_email: str
+    alerts: bool
 
     @classmethod
     def create(cls, username: str, password: str) -> "UserModel":
@@ -32,7 +33,8 @@ class UserModel(ORMModel):
             password=base64.urlsafe_b64encode(passhash).decode(),
             password_salt=base64.urlsafe_b64encode(salt),
             admin=False,
-            alert_email=None,
+            alert_email="",
+            alerts=False
         )
 
     def verify(self, password: str) -> bool:
@@ -55,7 +57,8 @@ class UserModel(ORMModel):
             "uid": full_anon["uid"],
             "username": full_anon["username"],
             "admin": full_anon["admin"],
-            "alert_email": full_anon["alert_email"]
+            "alert_email": full_anon["alert_email"],
+            "alerts": full_anon["alerts"]
         }
     
 class LoginModel(BaseModel):

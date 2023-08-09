@@ -8,5 +8,6 @@ export type User = {
     uid: string;
     username: string;
     admin: boolean | "forced";
-    alert_email: string | null;
+    alert_email: string;
+    alerts: boolean;
 };
