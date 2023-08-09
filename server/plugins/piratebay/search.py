@@ -62,6 +62,9 @@ class PirateBaySearch(SearchComponent):
             label="Search Category",
         )
     ]
+    id = "pirate-bay-search"
+    name = "PirateBay Search"
+    description = "Search all PirateBay videos"
 
     def __init__(self, plugin_data: PluginMeta, table: Table) -> None:
         super().__init__(plugin_data, table)
@@ -79,7 +82,7 @@ class PirateBaySearch(SearchComponent):
         if not results_raw.ok:
             raise ComponentError(
                 self.plugin["id"],
-                "pirate-bay-search",
+                self.id,
                 "Failed to retrieve data from PirateBay API",
             )
         processed_results = []

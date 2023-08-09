@@ -2,6 +2,9 @@ from typings import MEDIA_TYPES, PluginMeta, SearchResult, SEARCH_FIELDS, SEARCH
 from tinydb.table import Table
 
 class SearchComponent:
+    id: str
+    name: str
+    description: str
     media_types: list[MEDIA_TYPES]
     additional_fields: list[SEARCH_FIELDS]
 

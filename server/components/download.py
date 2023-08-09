@@ -2,6 +2,9 @@ from typings import MEDIA_TYPES, PluginMeta, SearchResult, MetadataResult, DOWNL
 from tinydb.table import Table
 
 class DownloadComponent:
+    id: str
+    name: str
+    description: str
     media_types: list[MEDIA_TYPES]
     download_types: list[DOWNLOAD_TYPES]
 

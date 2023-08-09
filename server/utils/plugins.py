@@ -12,12 +12,14 @@ REQUIRED_KEYS = ["id", "name", "description", "iconPath", "components"]
 T = TypeVar("T", SearchComponent, MetadataComponent, DownloadComponent)
 class ComponentEntry(TypedDict, Generic[T]):
     plugin: str
+    type: str
+    id: str
     component: T
 
 class PluginItem(TypedDict):
     id: str
     metadata: PluginMeta
-    components: dict[str, list[ComponentEntry]]
+    components: dict[str, ComponentEntry]
 
 class Plugins:
     def __init__(self, path: str, database: TinyDB):
@@ -57,9 +59,12 @@ class Plugins:
                         spec = importlib.util.spec_from_file_location(module_name, os.path.join(self.path, folder, path))
                         module = importlib.util.module_from_spec(spec)
                         spec.loader.exec_module(module)
+                        component_class = getattr(module, comp)
                         loaded_components[component_type].append({
                             "plugin": plugin_metadata["id"],
-                            "component": getattr(module, comp)(plugin_metadata, self.db.table("plugin." + plugin_metadata["id"] + "." + component_type))
+                            "id": component_class.id,
+                            "type": component_type,
+                            "component": component_class(plugin_metadata, self.db.table("plugin." + plugin_metadata["id"] + "." + component_type))
                         })
                     except:
                         logger.exception(f"Failed to load {comp} from {path} in plugin {plugin_metadata['id']}")
@@ -73,26 +78,5 @@ class Plugins:
 
     def plugin(self, id: str) -> PluginItem:
         return self.plugins[id]
-    
-    def search_components(self) -> list[ComponentEntry[SearchComponent]]:
-        comps = []
-        for p in self.plugins.values():
-            for comp in p["components"]["search"]:
-                comps.append(comp)
-        return comps
-    
-    def metadata_components(self) -> list[ComponentEntry[MetadataComponent]]:
-        comps = []
-        for p in self.plugins.values():
-            for comp in p["components"]["metadata"]:
-                comps.append(comp)
-        return comps
-    
-    def download_components(self) -> list[ComponentEntry[DownloadComponent]]:
-        comps = []
-        for p in self.plugins.values():
-            for comp in p["components"]["download"]:
-                comps.append(comp)
-        return comps
             
             

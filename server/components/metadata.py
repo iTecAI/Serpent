@@ -2,6 +2,9 @@ from typings import MEDIA_TYPES, PluginMeta, SearchResult, MetadataResult
 from tinydb.table import Table
 
 class MetadataComponent:
+    id: str
+    name: str
+    description: str
     media_types: list[MEDIA_TYPES]
 
     def __init__(self, plugin_data: PluginMeta, table: Table) -> None:
