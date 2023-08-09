@@ -43,6 +43,11 @@ export function ThemeProvider({children}: {children?: ReactNode | ReactNode[]}) 
                             ),
                     },
                 },
+                ActionIcon: {
+                    defaultProps: {
+                        color: mode === "dark" ? "gray" : "primary",
+                    },
+                },
             },
         }),
         [mode]
